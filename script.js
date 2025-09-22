@@ -1,0 +1,28 @@
+document.getElementById("menuLink1").addEventListener("click", () => {
+    document.getElementById("menu1").classList.remove("d-none")
+    document.getElementById("menu2").classList.add("d-none")
+    document.getElementById("menu3").classList.add("d-none")
+    document.getElementById("menu4").classList.add("d-none")
+    // console.log("test1")
+})
+document.getElementById("menuLink2").addEventListener("click", () => {
+    document.getElementById("menu2").classList.remove("d-none")
+    document.getElementById("menu1").classList.add("d-none")
+    document.getElementById("menu3").classList.add("d-none")
+    document.getElementById("menu4").classList.add("d-none")
+    // console.log("test2")
+})
+document.getElementById("menuLink3").addEventListener("click", () => {
+    document.getElementById("menu3").classList.remove("d-none")
+    document.getElementById("menu1").classList.add("d-none")
+    document.getElementById("menu2").classList.add("d-none")
+    document.getElementById("menu4").classList.add("d-none")
+    // console.log("test3")
+})
+document.getElementById("menuLink4").addEventListener("click", () => {
+    document.getElementById("menu4").classList.remove("d-none")
+    document.getElementById("menu1").classList.add("d-none")
+    document.getElementById("menu2").classList.add("d-none")
+    document.getElementById("menu3").classList.add("d-none")
+    // console.log("test4")
+})
