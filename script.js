@@ -1,28 +1,27 @@
-document.getElementById("menuLink1").addEventListener("click", () => {
-    document.getElementById("menu1").classList.remove("d-none")
-    document.getElementById("menu2").classList.add("d-none")
-    document.getElementById("menu3").classList.add("d-none")
-    document.getElementById("menu4").classList.add("d-none")
-    // console.log("test1")
+const cookie = document.getElementById("cookie")
+const scoreBoard = document.getElementById("score")
+
+let score = 0
+let scrorePerClick = 1
+
+const menus = ["menu1", "menu2", "menu3", "menu4"]
+const links = ["menuLink1", "menuLink2", "menuLink3", "menuLink4"]
+
+links.forEach((linkId, i) => {
+    document.getElementById(linkId).addEventListener("click", () => {
+        menus.forEach(menuId => document.getElementById(menuId).classList.add("d-none"))
+        document.getElementById(menus[i]).classList.remove("d-none")
+
+        links.forEach(l => document.getElementById(l).classList.remove("active"))
+        document.getElementById(linkId).classList.add("active")
+        links.forEach(l => document.getElementById(l).classList.remove("bg-secondary"))
+        document.getElementById(linkId).classList.add("bg-secondary")
+    })
 })
-document.getElementById("menuLink2").addEventListener("click", () => {
-    document.getElementById("menu2").classList.remove("d-none")
-    document.getElementById("menu1").classList.add("d-none")
-    document.getElementById("menu3").classList.add("d-none")
-    document.getElementById("menu4").classList.add("d-none")
-    // console.log("test2")
-})
-document.getElementById("menuLink3").addEventListener("click", () => {
-    document.getElementById("menu3").classList.remove("d-none")
-    document.getElementById("menu1").classList.add("d-none")
-    document.getElementById("menu2").classList.add("d-none")
-    document.getElementById("menu4").classList.add("d-none")
-    // console.log("test3")
-})
-document.getElementById("menuLink4").addEventListener("click", () => {
-    document.getElementById("menu4").classList.remove("d-none")
-    document.getElementById("menu1").classList.add("d-none")
-    document.getElementById("menu2").classList.add("d-none")
-    document.getElementById("menu3").classList.add("d-none")
-    // console.log("test4")
-})
+cookie.addEventListener("click", () => add(scrorePerClick))
+
+
+function add(N) {
+    score += N
+    scoreBoard.innerHTML = score
+}
