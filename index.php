@@ -15,7 +15,7 @@
 
         <!-- cookie/play window-->
         <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-            <h1 id="score" class="rounded-4 px-4 py-2 mb-4">0</h1>
+            <h1 id="scoreBoard" class="rounded-4 px-4 py-2 mb-4">0</h1>
             <!-- geen goede foto-->
             <img src="./img/cookieTEMP.png" id="cookie" alt="Cookie">
         </div>
@@ -47,7 +47,7 @@
                         <h4 class="card-title">Meer Cookies</h4>
                         <p class="card-text">Verdien meer cookies per click</p>
                         <a href="#" class="btn btn-primary col-12" id="perClickUpgrade">
-                            Upgrade ($<span id="perClickCost">00</span>)
+                            Upgrade ($<span id="perClickCost">10</span>)
                         </a>
                     </div>
                 </div>
@@ -69,6 +69,11 @@
 
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // elke 10 sec
+        setInterval(saveGame, 10 * 1000);
+        loadGame()
+    </script>
 </body>
 
 </html>
