@@ -62,7 +62,13 @@
             </div>
 
             <div class="flex-grow-1 menu-container d-none" id="menu4">
-                <p class="text-center m-auto">Instellingen</p>
+                <h3 class="text-center m-auto">Instellingen</h3>
+                <div class="p-5 pt-0">
+                    <a href="#" class="btn btn-danger col-12 mt-4" id="resetProgress">
+                        RESET PROGRESS
+                    </a>
+                </div>
+
             </div>
         </div>
     </main>

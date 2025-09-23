@@ -37,6 +37,14 @@ perClickUpgrade.addEventListener("click", () => {
         saveGame()
     }
 })
+document.getElementById("resetProgress").addEventListener("click", () => {
+    let gameData = {};
+    saveVars.forEach(v => {
+        gameData[v] = 0;
+    });
+    localStorage.setItem("gameData", JSON.stringify(gameData));
+    loadGame()
+})
 
 function saveGame() {
     let gameData = {};
