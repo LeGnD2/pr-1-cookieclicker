@@ -26,16 +26,16 @@
             <!-- menu knoppen -->
             <ul class="nav nav-tabs nav-justified">
                 <li class="nav-item">
-                    <a id="menuLink1" class="nav-link active" href="#">Per Click</a>
+                    <p id="menuLink1" class="nav-link active">Per Click</p>
                 </li>
                 <li class="nav-item">
-                    <a id="menuLink2" class="nav-link" href="#">Auto Productie</a>
+                    <p id="menuLink2" class="nav-link">Auto Productie</p>
                 </li>
                 <li class="nav-item">
-                    <a id="menuLink3" class="nav-link" href="#">Menu 3</a>
+                    <p id="menuLink3" class="nav-link">Menu 3</p>
                 </li>
                 <li class="nav-item">
-                    <a id="menuLink4" class="nav-link" href="#">Settings</a>
+                    <p id="menuLink4" class="nav-link">Settings</p>
                 </li>
             </ul>
 
