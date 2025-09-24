@@ -79,6 +79,7 @@
         // elke 10 sec
         setInterval(saveGame, 10 * 1000);
         loadGame()
+        loadMenuFromHash();
     </script>
 </body>
 

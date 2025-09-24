@@ -40,3 +40,8 @@
         background: rgba(255, 255, 255, 0.8);
         border-top: 1px solid #ddd;
     }
+
+    #menu2 {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
