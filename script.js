@@ -9,6 +9,7 @@ let UpgradeCurve = 1.5
 
 var score = 0
 var perClickUpgradeAmount = 0
+const names = ["Auto 1", "Auto 2", "auto 3", "auto 4", "auto 5"];
 
 
 const menus = ["menu1", "menu2", "menu3", "menu4"];
@@ -21,30 +22,16 @@ function showMenu(index) {
     links.forEach(l => document.getElementById(l).classList.remove("active", "bg-secondary"));
     document.getElementById(links[index]).classList.add("active", "bg-secondary");
 
-    window.location.hash = links[index];
+    save("menuWindow", index)
 }
 
 links.forEach((linkId, i) => {
     document.getElementById(linkId).addEventListener("click", () => showMenu(i));
 });
 
-// Bij laden: check hash en toon de juiste menu
-function loadMenuFromHash() {
-    const hash = window.location.hash.replace("#", "");
-    const index = links.indexOf(hash);
-    // console.log(index)
-    if (index !== -1) {
-        showMenu(index);
-    } else {
-        showMenu(0);
-    }
-}
-
 
 cookie.addEventListener("click", () => add(scorePerClick))
-// curve, elke keer dat je het koopt word het x1.5 duurder (UpgradeCurve)
 perClickUpgrade.addEventListener("click", () => {
-    // console.log(10 * (UpgradeCurve ** perClickUpgradeAmount))
     if (buy(Math.trunc(10 * UpgradeCurve ** perClickUpgradeAmount))) {
         perClickUpgradeAmount++
         perClickCost.innerHTML = Math.trunc(10 * UpgradeCurve ** (perClickUpgradeAmount))
@@ -52,41 +39,49 @@ perClickUpgrade.addEventListener("click", () => {
         saveGame()
     }
 })
+
+
 document.getElementById("resetProgress").addEventListener("click", () => {
-    let gameData = {};
-    saveVars.forEach(v => {
-        gameData[v] = 0;
-    });
-    localStorage.setItem("gameData", JSON.stringify(gameData));
+    localStorage.clear()
+    save("menuWindow", 0)
     loadGame()
 })
-// schrijf in saveVars welke vars je wil opslaan en zorg ervoor dat er een staandart is.
-const saveVars = ["score", "perClickUpgradeAmount"];
 
-// rework
+// auto upgrates
 function saveGame() {
-    let gameData = {};
-    saveVars.forEach(v => {
-        gameData[v] = window[v];
-    });
-    localStorage.setItem("gameData", JSON.stringify(gameData));
-}
+    save("score", score)
+    save("perClickUpgradeAmount", perClickUpgradeAmount)
+    upgrades.forEach((element) => {
+        element.saveAutoUpgrade()
+    })
 
-// rework
+    console.log("saved")
+}
+// remove menu2, reAdd, recalc
 function loadGame() {
-    let saved = JSON.parse(localStorage.getItem("gameData"));
-    if (saved) {
-        saveVars.forEach(v => {
-            if (saved[v] !== undefined) {
-                window[v] = saved[v];
-            }
-        });
-    }
+    showMenu(load("menuWindow"))
+
+    score = load("score")
     scoreBoard.innerHTML = score
-    scorePerClick = 1 + perClickUpgradeAmount
+
+    perClickUpgradeAmount = load("perClickUpgradeAmount")
     perClickCost.innerHTML = Math.trunc(10 * UpgradeCurve ** (perClickUpgradeAmount))
+    scorePerClick = 1 + perClickUpgradeAmount
+
+    menu2.innerHTML = ""
+    upgrades.forEach((element) => {
+        element.loadAutoUpgrade()
+        element.addHTML()
+    })
 }
 
+function save(naam, waarde) {
+    localStorage.setItem(naam, JSON.stringify(waarde))
+}
+
+function load(naam) {
+    return JSON.parse(localStorage.getItem(naam))
+}
 
 function add(N) {
     score += N
@@ -104,7 +99,6 @@ function buy(N) {
     }
 }
 
-// rework
 class AutoUpgrade {
     constructor(name, baseValue) {
         this.name = name;
@@ -128,49 +122,68 @@ class AutoUpgrade {
         this.updateCostsAndProduction();
         saveGame()
     }
-}
 
-// rework
-const names = ["Auto 1", "Auto 2", "Auto 3", "Auto 4", "Auto 5"];
-const upgrades = names.map((name, i) => new AutoUpgrade(name, i + 1));
-// console.log(upgrades);
-menu2.innerHTML = "";
-upgrades.forEach((upgrade, index) => {
-    const div = document.createElement("div");
-    div.className = "upgrade-item border p-2 m-2";
+    saveAutoUpgrade() {
+        save(`upgrade-${this.baseValue}`, this.upgradeAmount)
+    }
 
-    div.innerHTML = `
+    loadAutoUpgrade() {
+        this.upgradeAmount = load(`upgrade-${this.baseValue}`)
+        this.updateCostsAndProduction();
+    }
+
+    addHTML() {
+        const div = document.createElement("div");
+        div.className = "upgrade-item p-2 m-2";
+
+        div.innerHTML = `
 <div class="card shadow-sm mb-3">
   <div class="card-body">
-    <h5 class="card-title text-center">${upgrade.name}</h5>
+    <h5 class="card-title text-center">${this.name}</h5>
     <div class="row text-center">
       <div class="col">
         <p class="mb-1">Aantal</p>
-        <strong id="amount-${index}">${upgrade.upgradeAmount}</strong>
+        <strong id="amount-${this.baseValue}">${this.upgradeAmount}</strong>
       </div>
       <div class="col">
         <p class="mb-1">Score totaal</p>
-        <strong id="score-${index}">${upgrade.productionScoreTotal}</strong>
+        <strong id="score-${this.baseValue}">${this.productionScoreTotal}</strong>
       </div>
     </div>
     <div class="text-center mt-3">
-      <button class="btn btn-primary w-100" id="btn-${index}">Upgrade 
-      ($<strong id="cost-${index}">${upgrade.upgradeCostNext}</strong>)</button>
+      <button class="btn btn-primary w-100" id="btn-${this.baseValue}">Upgrade 
+      ($<strong id="cost-${this.baseValue}">${this.upgradeCostNext}</strong>)</button>
     </div>
   </div>
-</div>
+</div>`;
+        menu2.appendChild(div);
 
-        `;
+        document.getElementById(`btn-${this.baseValue}`).addEventListener("click", () => {
+            if (buy(this.upgradeCostNext)) {
+                this.upgrade();
+            }
 
-    menu2.appendChild(div);
+            document.getElementById(`amount-${this.baseValue}`).textContent = this.upgradeAmount;
+            document.getElementById(`score-${this.baseValue}`).textContent = this.productionScoreTotal;
+            document.getElementById(`cost-${this.baseValue}`).textContent = this.upgradeCostNext;
+        });
+    }
 
-    document.getElementById(`btn-${index}`).addEventListener("click", () => {
-        if (buy(upgrade.upgradeCostNext)) {
-            upgrade.upgrade();
-        }
+    startAutoUpgrade() {
+        this.interval = setInterval(() => {
+            if (this.upgradeAmount !== 0) {
+                add(this.productionScoreTotal)
+            }
+        }, this.productionTime * 1000)
+    }
+}
 
-        document.getElementById(`amount-${index}`).textContent = upgrade.upgradeAmount;
-        document.getElementById(`score-${index}`).textContent = upgrade.productionScoreTotal;
-        document.getElementById(`cost-${index}`).textContent = upgrade.upgradeCostNext;
-    });
-});
+let upgrades = []
+names.forEach((element, index) => {
+    upgrades.push(new AutoUpgrade(element, index + 1))
+})
+upgrades.forEach((element) => {
+    element.addHTML()
+    element.startAutoUpgrade()
+})
+
