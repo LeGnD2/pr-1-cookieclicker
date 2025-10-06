@@ -9,6 +9,7 @@ let UpgradeCurve = 1.5
 
 var score = 0
 var perClickUpgradeAmount = 0
+// namen van de auto upgrades
 const names = ["Auto 1", "Auto 2", "auto 3", "auto 4", "auto 5"];
 
 
