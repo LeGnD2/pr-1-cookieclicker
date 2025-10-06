@@ -63,6 +63,7 @@ document.getElementById("resetProgress").addEventListener("click", () => {
 // schrijf in saveVars welke vars je wil opslaan en zorg ervoor dat er een staandart is.
 const saveVars = ["score", "perClickUpgradeAmount"];
 
+// rework
 function saveGame() {
     let gameData = {};
     saveVars.forEach(v => {
@@ -71,6 +72,7 @@ function saveGame() {
     localStorage.setItem("gameData", JSON.stringify(gameData));
 }
 
+// rework
 function loadGame() {
     let saved = JSON.parse(localStorage.getItem("gameData"));
     if (saved) {
@@ -102,6 +104,7 @@ function buy(N) {
     }
 }
 
+// rework
 class AutoUpgrade {
     constructor(name, baseValue) {
         this.name = name;
@@ -127,8 +130,8 @@ class AutoUpgrade {
     }
 }
 
+// rework
 const names = ["Auto 1", "Auto 2", "Auto 3", "Auto 4", "Auto 5"];
-
 const upgrades = names.map((name, i) => new AutoUpgrade(name, i + 1));
 // console.log(upgrades);
 menu2.innerHTML = "";
@@ -149,7 +152,6 @@ upgrades.forEach((upgrade, index) => {
         <p class="mb-1">Score totaal</p>
         <strong id="score-${index}">${upgrade.productionScoreTotal}</strong>
       </div>
-
     </div>
     <div class="text-center mt-3">
       <button class="btn btn-primary w-100" id="btn-${index}">Upgrade 
