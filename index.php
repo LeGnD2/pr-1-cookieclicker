@@ -54,7 +54,7 @@
             </div>
 
             <div class="flex-grow-1 menu-container d-none" id="menu2">
-                <p class="text-center m-auto">Auto productie komt hier</p>
+                <p class="text-center m-auto"></p>
             </div>
 
             <div class="flex-grow-1 menu-container d-none" id="menu3">
@@ -79,7 +79,6 @@
         // elke 10 sec
         setInterval(saveGame, 10 * 1000);
         loadGame()
-        loadMenuFromHash();
     </script>
 </body>
 
