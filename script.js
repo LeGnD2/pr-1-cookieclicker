@@ -135,7 +135,7 @@ class AutoUpgrade {
 
     addHTML() {
         const div = document.createElement("div");
-        div.className = "upgrade-item p-2 m-2";
+        div.className = "upgrade-item p-2 m-2 mb-0 pb-0";
 
         div.innerHTML = `
 <div class="card shadow-sm mb-3">
