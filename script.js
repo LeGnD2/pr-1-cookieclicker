@@ -130,6 +130,9 @@ class AutoUpgrade {
 
     loadAutoUpgrade() {
         this.upgradeAmount = load(`upgrade-${this.baseValue}`)
+        if (this.upgradeAmount == null) {
+            this.upgradeAmount = 0
+        }
         this.updateCostsAndProduction();
     }
 
