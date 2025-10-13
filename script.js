@@ -13,10 +13,13 @@ var score = 0
 var perClickUpgradeAmount = 0
 // namen van de auto upgrades
 const names = ["Auto 1", "Auto 2", "auto 3", "auto 4", "auto 5"];
+let menus = []
+let links = []
 
-
-const menus = ["menu1", "menu2", "menu3", "menu4", "menu5"];
-const links = ["menuLink1", "menuLink2", "menuLink3", "menuLink4", "menuLink5"];
+for (let i = 1; i <= 6; i++) {
+    menus.push(`menu${i}`)
+    links.push(`menuLink${i}`)
+}
 
 function showMenu(index) {
     menus.forEach(menuId => document.getElementById(menuId).classList.add("d-none"));
@@ -114,7 +117,7 @@ class AutoUpgrade {
         this.baseValue = baseValue;
 
         this.upgradeAmount = 0;
-        this.upgradeCostBase = Math.trunc((baseValue ** UpgradeCurve) * 50);
+        this.upgradeCostBase = Math.trunc((baseValue ** (UpgradeCurve ** UpgradeCurve)) * 50);
         this.productionTime = this.baseValue;
         this.productionScoreBase = this.baseValue ** 2;
 
