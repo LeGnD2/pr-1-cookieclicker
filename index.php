@@ -37,6 +37,7 @@
                 <li class="nav-item">
                     <p id="menuLink4" class="nav-link">Settings</p>
                 </li>
+
             </ul>
 
             <!-- menu's -->
@@ -45,9 +46,9 @@
                     <img class="card-img-top p-3" src="./img/cookieTEMP.png" alt="Card image">
                     <div class="card-body">
                         <h4 class="card-title">Meer Cookies</h4>
-                        <p class="card-text">Verdien meer cookies per click</p>
+                        <p class="card-text"><span id="perClickAmount" class="badge bg-primary">1</span> cookies per click</p>
                         <a href="#" class="btn btn-primary col-12" id="perClickUpgrade">
-                            Upgrade ($<span id="perClickCost">10</span>)
+                            Upgrade <span id="perClickCost" class="">10</span>
                         </a>
                     </div>
                 </div>
@@ -64,12 +65,15 @@
             <div class="flex-grow-1 menu-container d-none" id="menu4">
                 <h3 class="text-center m-auto">Instellingen</h3>
                 <div class="p-5 pt-0">
-                    <a href="#" class="btn btn-danger col-12 mt-4" id="resetProgress">
+                    <p id="menuLink5" class="col-12 mt-4 mb-0 btn btn-primary">geschiedenis</p>
+
+                    <a href="#" class="btn btn-danger col-12 mt-4 mb-0" id="resetProgress">
                         RESET PROGRESS
                     </a>
                 </div>
-
             </div>
+
+            <div class="flex-grow-1 menu-container d-none" id="menu5"></div>
         </div>
     </main>
 

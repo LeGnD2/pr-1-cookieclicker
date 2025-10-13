@@ -2,7 +2,9 @@ const cookie = document.getElementById("cookie")
 const scoreBoard = document.getElementById("scoreBoard")
 const perClickUpgrade = document.getElementById("perClickUpgrade")
 const perClickCost = document.getElementById("perClickCost")
+const perClickAmount = document.getElementById("perClickAmount")
 const menu2 = document.getElementById("menu2")
+const menu5 = document.getElementById("menu5")
 
 let scorePerClick = 1
 let UpgradeCurve = 1.5
@@ -13,8 +15,8 @@ var perClickUpgradeAmount = 0
 const names = ["Auto 1", "Auto 2", "auto 3", "auto 4", "auto 5"];
 
 
-const menus = ["menu1", "menu2", "menu3", "menu4"];
-const links = ["menuLink1", "menuLink2", "menuLink3", "menuLink4"];
+const menus = ["menu1", "menu2", "menu3", "menu4", "menu5"];
+const links = ["menuLink1", "menuLink2", "menuLink3", "menuLink4", "menuLink5"];
 
 function showMenu(index) {
     menus.forEach(menuId => document.getElementById(menuId).classList.add("d-none"));
@@ -33,10 +35,11 @@ links.forEach((linkId, i) => {
 
 cookie.addEventListener("click", () => add(scorePerClick))
 perClickUpgrade.addEventListener("click", () => {
-    if (buy(Math.trunc(10 * UpgradeCurve ** perClickUpgradeAmount))) {
+    if (buy(Math.trunc(10 * UpgradeCurve ** perClickUpgradeAmount), "per click score")) {
         perClickUpgradeAmount++
-        perClickCost.innerHTML = Math.trunc(10 * UpgradeCurve ** (perClickUpgradeAmount))
+        perClickCost.innerHTML = "$" + Math.trunc(10 * UpgradeCurve ** (perClickUpgradeAmount))
         scorePerClick = 1 + perClickUpgradeAmount
+        perClickAmount.innerHTML = scorePerClick
         saveGame()
     }
 })
@@ -66,8 +69,9 @@ function loadGame() {
     scoreBoard.innerHTML = score
 
     perClickUpgradeAmount = load("perClickUpgradeAmount")
-    perClickCost.innerHTML = Math.trunc(10 * UpgradeCurve ** (perClickUpgradeAmount))
+    perClickCost.innerHTML = "$" + Math.trunc(10 * UpgradeCurve ** (perClickUpgradeAmount))
     scorePerClick = 1 + perClickUpgradeAmount
+    perClickAmount.innerHTML = scorePerClick
 
     menu2.innerHTML = ""
     upgrades.forEach((element) => {
@@ -89,10 +93,14 @@ function add(N) {
     scoreBoard.innerHTML = score
 }
 
-function buy(N) {
+function buy(N, str = "(not found)") {
     if (score - N >= 0) {
         score -= N
         scoreBoard.innerHTML = score
+        const div = document.createElement("div")
+        div.className = "alert alert-info m-2"
+        div.innerHTML = `<span>$${N}</span> spend on ${str}`
+        menu5.appendChild(div)
         return true
     } else {
         console.log("niet genoeg score")
@@ -163,7 +171,7 @@ class AutoUpgrade {
         menu2.appendChild(div);
 
         document.getElementById(`btn-${this.baseValue}`).addEventListener("click", () => {
-            if (buy(this.upgradeCostNext)) {
+            if (buy(this.upgradeCostNext, `upgrading ${this.name}`)) {
                 this.upgrade();
             }
 
